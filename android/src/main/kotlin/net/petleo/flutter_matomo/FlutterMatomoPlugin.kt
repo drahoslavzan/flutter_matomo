@@ -77,6 +77,25 @@ class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : 
                     result.success("Matomo:: Failed to track event, did you call initializeTracker ?")
                 }
             }
+            "trackCartUpdate" -> {
+                try {
+                    val totalPrice = call.argument<Int>("totalPrice") ?: 1
+                    TrackHelper.track().cartUpdate(totalPrice as Int).with(tracker)
+                    result.success("Matomo:: CartUpdate $totalPrice sent to ${tracker?.apiUrl}")
+                } catch (e: Exception) {
+                    result.success("Matomo:: Failed to track event, did you call initializeTracker ?")
+                }
+            }
+            "trackOrder" -> {
+                try {
+                    val orderId = call.argument<Int>("orderId") ?: 1
+                    val totalPrice = call.argument<Int>("totalPrice") ?: 1
+                    TrackHelper.track().order(Integer.toString(orderId), totalPrice as Int).with(tracker)
+                    result.success("Matomo:: Order $orderId with $totalPrice sent to ${tracker?.apiUrl}")
+                } catch (e: Exception) {
+                    result.success("Matomo:: Failed to track event, did you call initializeTracker ?")
+                }
+            }
             "dispatchEvents" -> {
                 try {
                     tracker?.dispatch()

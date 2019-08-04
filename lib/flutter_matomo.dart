@@ -67,6 +67,19 @@ class FlutterMatomo {
     final String version = await _channel.invokeMethod('trackGoal', args);
     return version;
   }
+  static Future<String> trackCartUpdate(int totalPrice) async {
+    Map<String, dynamic> args = {};
+    args.putIfAbsent('totalPrice', () => totalPrice);
+    final String version = await _channel.invokeMethod('trackCartUpdate', args);
+    return version;
+  }
+  static Future<String> trackOrder(int totalPrice, int goalId) async {
+    Map<String, dynamic> args = {};
+    args.putIfAbsent('goalId', () => goalId);
+    args.putIfAbsent('totalPrice', () => totalPrice);
+    final String version = await _channel.invokeMethod('trackOrder', args);
+    return version;
+  }
 }
 
 abstract class TraceableStatelessWidget extends StatelessWidget {

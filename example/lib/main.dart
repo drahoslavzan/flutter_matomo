@@ -56,6 +56,15 @@ class _MyAppState extends State<MyApp> {
       setState(() {});
     });
 
+    Future.delayed(Duration(seconds: 14), () async {
+      _matomoStatus = await FlutterMatomo.trackCartUpdate(1);
+      setState(() {});
+    });
+
+    Future.delayed(Duration(seconds: 16), () async {
+      _matomoStatus = await FlutterMatomo.trackOrder(1, 1);
+      setState(() {});
+    });
     if (!mounted) return;
   }
 
