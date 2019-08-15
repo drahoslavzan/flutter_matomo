@@ -79,8 +79,8 @@ class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : 
             }
             "trackCartUpdate" -> {
                 try {
-                    val totalPrice = call.argument<Int>("totalPrice") ?: 1
-                    TrackHelper.track().cartUpdate(totalPrice as Int).with(tracker)
+                    val totalCount = call.argument<Int>("totalCount") ?: 0
+                    TrackHelper.track().cartUpdate(totalCount as Int).with(tracker)
                     result.success("Matomo:: CartUpdate $totalPrice sent to ${tracker?.apiUrl}")
                 } catch (e: Exception) {
                     result.success("Matomo:: Failed to track event, did you call initializeTracker ?")

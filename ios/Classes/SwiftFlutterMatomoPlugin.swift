@@ -50,5 +50,36 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
             matomoTracker?.dispatch()
             result("Matomo:: events dispatched")
         }
+        if (call.method.elementsEqual("cartUpdate")) {
+            let arguments = call.arguments as? NSDictionary
+            let totalCount = arguments["totalCount"] as Int ?? 0
+            matomoTracker?.trackCartUpdate(items: totalCount)
+            matomoTracker?.dispatch()
+            result("Matomo:: cartUpdate sent")
+        }
+        if (call.method.elementsEqual("trackOrder")) {
+            let arguments = call.arguments as? NSDictionary
+            let orderId = call.arguments?["goalId"] as String ?? "NotexistentID" 
+            let items = arguments["items"] as [OrderItem] ?? []
+            // let revenue = {
+            //     var totalPrice: Float = 0.0
+            //     for item in items {
+            //         totalPrice += item.price * item.quntity
+            //     }
+            //     return totalPrice
+            // }
+    
+            let revenue = arguments?["totalPrice"] as Float ?? 0.0
+            matomoTracker?.trackOrder(id: orderId, items: items, revenue: revenue)
+            matomoTracker?.dispatch()
+            result("Matomo:: trackOrder sent")
+        }
+    }
+}
+
+extension MatomoTracker {
+    public func trackCartUpdate(itemsNumber: Int) {
+        let event = Event(tracker: self, action: [], itemsNumber: itemsNumber)
+        queue(event: event)
     }
 }
