@@ -64,7 +64,7 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
            // matomoTracker?.dispatch()
             result("Matomo:: events dispatched")
         }
-        if (call.method.elementsEqual("cartUpdate")) {
+        if (call.method.elementsEqual("trackCartUpdate")) {
             guard let arguments = call.arguments as? NSDictionary,
                 let totalCount = arguments["totalCount"] as? Int else { return }
             trackCartUpdate(itemsNumber: totalCount)
@@ -75,8 +75,8 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
                 let orderId = arguments["goalId"] as? String,
                 let items = arguments["items"] as? [OrderItem] else { return }
             
-            let revenue = arguments["totalPrice"] as! Float
-            matomoTracker?.trackOrder(id: orderId, items: items, revenue: revenue)
+            let revenue = arguments["totalPrice"] as! Int
+            matomoTracker?.trackOrder(id: orderId, items: items, revenue: Float(revenue))
             matomoTracker?.dispatch()
             result("Matomo:: trackOrder sent")
         }
