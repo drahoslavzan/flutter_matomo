@@ -68,9 +68,8 @@ class FlutterMatomo {
     return version;
   }
   static Future<String> trackCartUpdate(int totalCount) async {
-    var count = totalCount * 100;
     Map<String, dynamic> args = {};
-    args.putIfAbsent('totalCount', () => count);
+    args.putIfAbsent('totalCount', () => totalCount);
     final String version = await _channel.invokeMethod('trackCartUpdate', args);
     return version;
   }
