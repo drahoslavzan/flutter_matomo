@@ -36,7 +36,6 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
                 let siteId = arguments["siteId"] as? Int else { return }
             matomoTracker = MatomoTracker(siteId: String(siteId), baseURL: URL(string: url)!)
             matomoTracker?.logger = DefaultLogger(minLevel: .verbose)
-            ma
             result("Matomo:: \(url) initialized successfully.")
         }
         if(call.method.elementsEqual("trackEvent")){
@@ -48,12 +47,12 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
             matomoTracker?.dispatch()
             result("Matomo:: trackScreen event \(eventName) sent")
         }
-        if(call.method.elementsEqual("trackEvent")){
+        if(call.method.elementsEqual("trackEventWithOptionalName")){
             guard let arguments = call.arguments as? NSDictionary,
                 let widgetName = arguments["widgetName"] as? String,
                 let eventName =  arguments["eventName"] as? String,
-                let eventAction =  arguments["eventAction"] as? String ?? ""
-                let optionalName =  arguments["optionalName"] as? String ?? ""
+                let eventAction =  arguments["eventAction"] as? String,
+                let optionalName =  arguments["optionalName"] as? String else { return }
             matomoTracker?.track(eventWithCategory: widgetName, action: eventAction, name: optionalName, number: 3)
             matomoTracker?.dispatch()
             result("Matomo:: trackScreen event \(eventName) sent")
