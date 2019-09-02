@@ -39,6 +39,18 @@ class FlutterMatomo {
     return version;
   }
 
+  static Future<String> trackEventWithOptionalName(BuildContext context, String eventName,
+      String eventAction, String optionalName) async {
+    var widgetName = context.widget.toStringShort();
+    Map<String, dynamic> args = {};
+    args.putIfAbsent('widgetName', () => widgetName);
+    args.putIfAbsent('eventName', () => eventName);
+    args.putIfAbsent('optionalName', () => optionalName);
+    args.putIfAbsent('eventAction', () => eventAction);
+    final String version = await _channel.invokeMethod('trackEventWithOptionalName', args);
+    return version;
+  }
+
   static Future<String> trackScreen(BuildContext context, String eventName) async {
     var widgetName = context.widget.toStringShort();
     Map<String, dynamic> args = {};

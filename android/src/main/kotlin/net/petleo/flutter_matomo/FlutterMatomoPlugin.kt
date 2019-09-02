@@ -33,6 +33,8 @@ class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : 
                     if (tracker == null) {
                         tracker = TrackerBuilder.createDefault(url, siteId ?: 1).build(matomo)
                     }
+                    TrackHelper.track().download().with(tracker);
+
                     result.success("Matomo:: $url initialized successfully.")
                 } catch (e: Exception) {
                     result.success("Matomo:: $url failed with this error: ${e.printStackTrace()}")
@@ -51,6 +53,21 @@ class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : 
                     result.success("Matomo:: Failed to track event, did you call initializeTracker ?")
                 }
             }
+            "trackEventWithOptionalName" -> {
+                try {
+                    val widgetName = call.argument<String>("widgetName")
+                    val eventName = call.argument<String>("eventName")
+                    val eventAction = call.argument<String>("eventAction") ?: ""
+                    val optionalName = call.argument<String>("optionalName") ?: ""
+
+                    TrackHelper.track().event(eventName, eventAction).name(optionalName).path(widgetName).with(tracker)
+
+                    result.success("Matomo:: Event $eventName with action $eventAction in $widgetName sent to ${tracker?.apiUrl}")
+                } catch (e: Exception) {
+                    result.success("Matomo:: Failed to track event, did you call initializeTracker ?")
+                }
+            }
+
             "trackScreen" -> {
                 try {
                     val widgetName = call.argument<String>("widgetName")
