@@ -26,22 +26,6 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
         return "http://\(String(describing: Bundle.main.bundleIdentifier)):\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
     }
 
-    private func trackCartUpdate(itemsNumber: Int) {
-        guard matomoTracker != nil else {return}
-
-        var counter = itemsNumber
-
-        var items = [OrderItem]()
-
-        repeat {
-            items.append(OrderItem(sku: ""))
-            counter -= 1
-        } while counter > 0
-
-        let event = Event(tracker: matomoTracker!, action: [String](), orderItems: items)
-        matomoTracker?.track(event)
-    }
-
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if(call.method.elementsEqual("initializeTracker")){
             guard let arguments = call.arguments as? NSDictionary,
@@ -93,18 +77,17 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
             result("Matomo:: events dispatched")
         }
         if (call.method.elementsEqual("trackCartUpdate")) {
-            guard let arguments = call.arguments as? NSDictionary,
-                let totalCount = arguments["totalCount"] as? Int else { return }
-            trackCartUpdate(itemsNumber: totalCount)
-            result("Matomo:: cartUpdate sent")
+            result("Matomo:: cartUpdate not avalibale in iOS platform")
         }
         if (call.method.elementsEqual("trackOrder")) {
             guard let arguments = call.arguments as? NSDictionary,
-                let orderId = arguments["goalId"] as? String,
-                let items = arguments["items"] as? [OrderItem] else { return }
+                let orderId = arguments["goalId"] as? Int else { return }
             
-            let revenue = arguments["totalPrice"] as! Int
-            matomoTracker?.trackOrder(id: orderId, items: items, revenue: Float(revenue))
+            var items = [OrderItem]()
+            let revenue = arguments["totalPrice"] as? Int ?? 0
+            items.append(OrderItem(sku: "", price: Float(revenue)))
+            
+            matomoTracker?.trackOrder(id: String(orderId), items: items, revenue: Float(revenue))
             matomoTracker?.dispatch()
             result("Matomo:: trackOrder sent")
         }

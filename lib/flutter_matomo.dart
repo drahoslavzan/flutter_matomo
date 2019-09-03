@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'dart:io';
+
 
 class FlutterMatomo {
   static const MethodChannel _channel = const MethodChannel('flutter_matomo');
@@ -86,13 +88,24 @@ class FlutterMatomo {
     return version;
   }
   static Future<String> trackOrder(int totalPrice, int goalId) async {
-    var price = totalPrice * 100;
+    if (Platform.isIOS) {
+      Map<String, dynamic> args = {};
+      args.putIfAbsent('goalId', () => goalId);
+      args.putIfAbsent('totalPrice', () => totalPrice);
+      final String version = await _channel.invokeMethod('trackOrder', args);
+      return version;
+    }
+    if (Platform.isAndroid){
+      var price = totalPrice * 100;
+      Map<String, dynamic> args = {};
+      args.putIfAbsent('goalId', () => goalId);
+      args.putIfAbsent('totalPrice', () => price);
+      final String version = await _channel.invokeMethod('trackOrder', args);
+      return version;
+    } else {
+      return "Platform not avalibale";
+    }
 
-    Map<String, dynamic> args = {};
-    args.putIfAbsent('goalId', () => goalId);
-    args.putIfAbsent('totalPrice', () => price);
-    final String version = await _channel.invokeMethod('trackOrder', args);
-    return version;
   }
 }
 
