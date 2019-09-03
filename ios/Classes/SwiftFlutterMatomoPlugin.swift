@@ -80,16 +80,16 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
             result("Matomo:: cartUpdate not avalibale in iOS platform")
         }
         if (call.method.elementsEqual("trackOrder")) {
-            guard let arguments = call.arguments as? NSDictionary,
-                let orderId = arguments["goalId"] as? Int else { return }
-            
-            var items = [OrderItem]()
-            let revenue = arguments["totalPrice"] as? Int ?? 0
-            items.append(OrderItem(sku: "", price: Float(revenue)))
-            
-            matomoTracker?.trackOrder(id: String(orderId), items: items, revenue: Float(revenue))
-            matomoTracker?.dispatch()
-            result("Matomo:: trackOrder sent")
+                   guard let arguments = call.arguments as? NSDictionary,
+                       let orderId = arguments["goalId"] as? Int else { return }
+
+                   var items = [OrderItem]()
+                   let revenue = arguments["totalPrice"] as? Float ?? 0.0
+                   items.append(OrderItem(sku: "", price: revenue))
+
+                   matomoTracker?.trackOrder(id: String(orderId), items: items, revenue: revenue)
+                   matomoTracker?.dispatch()
+                   result("Matomo:: trackOrder sent")
         }
 
     }

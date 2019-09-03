@@ -87,7 +87,7 @@ class FlutterMatomo {
     final String version = await _channel.invokeMethod('trackCartUpdate', args);
     return version;
   }
-  static Future<String> trackOrder(int totalPrice, int goalId) async {
+  static Future<String> trackOrder(double totalPrice, int goalId) async {
     if (Platform.isIOS) {
       Map<String, dynamic> args = {};
       args.putIfAbsent('goalId', () => goalId);
@@ -96,7 +96,7 @@ class FlutterMatomo {
       return version;
     }
     if (Platform.isAndroid){
-      var price = totalPrice * 100;
+      var price = totalPrice.toInt() * 100;
       Map<String, dynamic> args = {};
       args.putIfAbsent('goalId', () => goalId);
       args.putIfAbsent('totalPrice', () => price);
