@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'dart:io';
-
 
 class FlutterMatomo {
   static const MethodChannel _channel = const MethodChannel('flutter_matomo');
@@ -41,18 +39,6 @@ class FlutterMatomo {
     return version;
   }
 
-  static Future<String> trackEventWithOptionalName(BuildContext context, String eventName,
-      String eventAction, String optionalName) async {
-    var widgetName = context.widget.toStringShort();
-    Map<String, dynamic> args = {};
-    args.putIfAbsent('widgetName', () => widgetName);
-    args.putIfAbsent('eventName', () => eventName);
-    args.putIfAbsent('optionalName', () => optionalName);
-    args.putIfAbsent('eventAction', () => eventAction);
-    final String version = await _channel.invokeMethod('trackEventWithOptionalName', args);
-    return version;
-  }
-
   static Future<String> trackScreen(BuildContext context, String eventName) async {
     var widgetName = context.widget.toStringShort();
     Map<String, dynamic> args = {};
@@ -80,32 +66,6 @@ class FlutterMatomo {
     args.putIfAbsent('goalId', () => goalId);
     final String version = await _channel.invokeMethod('trackGoal', args);
     return version;
-  }
-  static Future<String> trackCartUpdate(int totalCount) async {
-    Map<String, dynamic> args = {};
-    args.putIfAbsent('totalCount', () => totalCount);
-    final String version = await _channel.invokeMethod('trackCartUpdate', args);
-    return version;
-  }
-  static Future<String> trackOrder(double totalPrice, int goalId) async {
-    if (Platform.isIOS) {
-      Map<String, dynamic> args = {};
-      args.putIfAbsent('goalId', () => goalId);
-      args.putIfAbsent('totalPrice', () => totalPrice);
-      final String version = await _channel.invokeMethod('trackOrder', args);
-      return version;
-    }
-    if (Platform.isAndroid){
-      var price = totalPrice.toInt() * 100;
-      Map<String, dynamic> args = {};
-      args.putIfAbsent('goalId', () => goalId);
-      args.putIfAbsent('totalPrice', () => price);
-      final String version = await _channel.invokeMethod('trackOrder', args);
-      return version;
-    } else {
-      return "Platform not avalibale";
-    }
-
   }
 }
 
