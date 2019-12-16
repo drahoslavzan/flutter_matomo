@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'dart:io';
+
 
 class FlutterMatomo {
   static const MethodChannel _channel = const MethodChannel('flutter_matomo');
@@ -11,7 +13,8 @@ class FlutterMatomo {
     Map<String, dynamic> args = {};
     args.putIfAbsent('url', () => url);
     args.putIfAbsent('siteId', () => siteId);
-    final String version = await _channel.invokeMethod('initializeTracker', args);
+    final String version = await _channel.invokeMethod(
+        'initializeTracker', args);
     return version;
   }
 
@@ -20,7 +23,8 @@ class FlutterMatomo {
     return version;
   }
 
-  static Future<String> trackEvent(BuildContext context, String eventName, String eventAction) async {
+  static Future<String> trackEvent(BuildContext context, String eventName,
+      String eventAction) async {
     var widgetName = context.widget.toStringShort();
     Map<String, dynamic> args = {};
     args.putIfAbsent('widgetName', () => widgetName);
@@ -30,7 +34,8 @@ class FlutterMatomo {
     return version;
   }
 
-  static Future<String> trackEventWithName(String widgetName, String eventName, String eventAction) async {
+  static Future<String> trackEventWithName(String widgetName, String eventName,
+      String eventAction) async {
     Map<String, dynamic> args = {};
     args.putIfAbsent('widgetName', () => widgetName);
     args.putIfAbsent('eventName', () => eventName);
@@ -39,7 +44,22 @@ class FlutterMatomo {
     return version;
   }
 
-  static Future<String> trackScreen(BuildContext context, String eventName) async {
+  static Future<String> trackEventWithOptionalName(BuildContext context,
+      String eventName,
+      String eventAction, String optionalName) async {
+    var widgetName = context.widget.toStringShort();
+    Map<String, dynamic> args = {};
+    args.putIfAbsent('widgetName', () => widgetName);
+    args.putIfAbsent('eventName', () => eventName);
+    args.putIfAbsent('optionalName', () => optionalName);
+    args.putIfAbsent('eventAction', () => eventAction);
+    final String version = await _channel.invokeMethod(
+        'trackEventWithOptionalName', args);
+    return version;
+  }
+
+  static Future<String> trackScreen(BuildContext context,
+      String eventName) async {
     var widgetName = context.widget.toStringShort();
     Map<String, dynamic> args = {};
     args.putIfAbsent('widgetName', () => widgetName);
@@ -48,7 +68,8 @@ class FlutterMatomo {
     return version;
   }
 
-  static Future<String> trackScreenWithName(String widgetName, String eventName) async {
+  static Future<String> trackScreenWithName(String widgetName,
+      String eventName) async {
     Map<String, dynamic> args = {};
     args.putIfAbsent('widgetName', () => widgetName);
     args.putIfAbsent('eventName', () => eventName);
@@ -67,17 +88,48 @@ class FlutterMatomo {
     final String version = await _channel.invokeMethod('trackGoal', args);
     return version;
   }
+
+  static Future<String> trackCartUpdate(int totalCount) async {
+    Map<String, dynamic> args = {};
+    args.putIfAbsent('totalCount', () => totalCount);
+    final String version = await _channel.invokeMethod('trackCartUpdate', args);
+    return version;
+  }
+
+  static Future<String> trackOrder(double totalPrice, int goalId) async {
+    if (Platform.isIOS) {
+      Map<String, dynamic> args = {};
+      args.putIfAbsent('goalId', () => goalId);
+      args.putIfAbsent('totalPrice', () => totalPrice);
+      final String version = await _channel.invokeMethod('trackOrder', args);
+      return version;
+    }
+    if (Platform.isAndroid) {
+      var price = totalPrice.toInt() * 100;
+      Map<String, dynamic> args = {};
+      args.putIfAbsent('goalId', () => goalId);
+      args.putIfAbsent('totalPrice', () => price);
+      final String version = await _channel.invokeMethod('trackOrder', args);
+      return version;
+    } else {
+      return "Platform not avalibale";
+    }
+  }
 }
 
 abstract class TraceableStatelessWidget extends StatelessWidget {
   final String name;
   final String title;
 
-  TraceableStatelessWidget({this.name = '', this.title = 'WidgetCreated', Key key}) : super(key: key);
+  TraceableStatelessWidget(
+      {this.name = '', this.title = 'WidgetCreated', Key key})
+      : super(key: key);
 
   @override
   StatelessElement createElement() {
-    FlutterMatomo.trackScreenWithName(this.name.isEmpty ? this.runtimeType.toString() : this.name, this.title);
+    FlutterMatomo.trackScreenWithName(
+        this.name.isEmpty ? this.runtimeType.toString() : this.name,
+        this.title);
     FlutterMatomo.dispatchEvents();
     return StatelessElement(this);
   }
@@ -87,11 +139,15 @@ abstract class TraceableStatefulWidget extends StatefulWidget {
   final String name;
   final String title;
 
-  TraceableStatefulWidget({this.name = '', this.title = 'WidgetCreated', Key key}) : super(key: key);
+  TraceableStatefulWidget(
+      {this.name = '', this.title = 'WidgetCreated', Key key})
+      : super(key: key);
 
   @override
   StatefulElement createElement() {
-    FlutterMatomo.trackScreenWithName(this.name.isEmpty ? this.runtimeType.toString() : this.name, this.title);
+    FlutterMatomo.trackScreenWithName(
+        this.name.isEmpty ? this.runtimeType.toString() : this.name,
+        this.title);
     FlutterMatomo.dispatchEvents();
     return StatefulElement(this);
   }
@@ -101,11 +157,15 @@ abstract class TraceableInheritedWidget extends InheritedWidget {
   final String name;
   final String title;
 
-  TraceableInheritedWidget({this.name = '', this.title = 'WidgetCreated', Key key, Widget child}) : super(key: key, child: child);
+  TraceableInheritedWidget(
+      {this.name = '', this.title = 'WidgetCreated', Key key, Widget child})
+      : super(key: key, child: child);
 
   @override
   InheritedElement createElement() {
-    FlutterMatomo.trackScreenWithName(this.name.isEmpty ? this.runtimeType.toString() : this.name, this.title);
+    FlutterMatomo.trackScreenWithName(
+        this.name.isEmpty ? this.runtimeType.toString() : this.name,
+        this.title);
     FlutterMatomo.dispatchEvents();
     return InheritedElement(this);
   }
@@ -113,12 +173,16 @@ abstract class TraceableInheritedWidget extends InheritedWidget {
 
 abstract class TraceableState<T extends TraceableStatefulWidget> extends State {
   DateTime openedAt = DateTime.now();
+
   @override
   T get widget => super.widget;
 
   @override
   void dispose() {
-    int secondsSpent = DateTime.now().difference(openedAt).inSeconds;
+    int secondsSpent = DateTime
+        .now()
+        .difference(openedAt)
+        .inSeconds;
     super.dispose();
   }
 }
