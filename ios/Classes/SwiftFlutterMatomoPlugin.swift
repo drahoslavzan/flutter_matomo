@@ -14,7 +14,7 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    if(call.method.elementsEqual("initializeTracker")){
+    if(call.method.elementsEqual("initializeTracker")) {
         let arguments = call.arguments as? NSDictionary
         let url = arguments?["url"] as? String
         let siteId = arguments?["siteId"] as? Int
@@ -24,7 +24,7 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
 //      }
         result("Matomo:: \(url) initialized successfully.")
     }
-    if(call.method.elementsEqual("trackEvent")){
+    if(call.method.elementsEqual("trackEvent")) {
             let arguments = call.arguments as? NSDictionary
             let widgetName = arguments?["widgetName"] as? String
             let eventName =  arguments?["eventName"] as? String
@@ -33,20 +33,28 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
         matomoTracker?.dispatch()
         result("Matomo:: trackScreen event \(eventName) sent")
     }
-    if(call.method.elementsEqual("trackScreen")){
+    if(call.method.elementsEqual("trackScreen")) {
         let arguments = call.arguments as? NSDictionary
         let widgetName = arguments?["widgetName"] as? String
         matomoTracker?.track(view:[widgetName ?? ""])
         matomoTracker?.dispatch()
         result("Matomo:: trackScreen screen \(widgetName) sent")
     }
-    if(call.method.elementsEqual("trackDownload")){
+    if(call.method.elementsEqual("trackOrder")) {
+        let arguments = call.arguments as? NSDictionary
+        let orderValue = arguments?["orderValue"] as? Int
+        let orderId = arguments?["orderId"] as? Int
+
+        matomoTracker?.trackOrder(id: String(orderId) ?? "", revenue: String(orderValue) ?? "")
+        result("Matomo:: trackOrder order \(orderId)")
+    }
+    if(call.method.elementsEqual("trackDownload")) {
         result("Matomo:: trackDownload initialized successfully.")
     }
-    if(call.method.elementsEqual("trackGoals")){
+    if(call.method.elementsEqual("trackGoals")) {
         result("Matomo:: trackGoals initialized successfully.")
     }
-    if(call.method.elementsEqual("dispatchEvents")){
+    if(call.method.elementsEqual("dispatchEvents")) {
                 matomoTracker?.dispatch()
         result("Matomo:: events dispatched")
     }
