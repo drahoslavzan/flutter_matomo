@@ -28,7 +28,7 @@ class FlutterMatomoPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
         @JvmStatic
         fun registerWith(registrar: Registrar) {
             val channel = MethodChannel(registrar.messenger(), "flutter_matomo")
-            channel.setMethodCallHandler(FlutterMatomoPlugin(registrar.activity(), channel))
+            channel.setMethodCallHandler(FlutterMatomoPlugin())
         }
     }
 
