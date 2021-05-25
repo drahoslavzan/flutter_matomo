@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45b953e7-533f-46f0-b9bf-afe9aa260aac" name="Default Changelist" comment="increase version number">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/android/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/android/.idea/compiler.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/android/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/codeStyles/Project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/gradle.xml" afterDir="false" />
@@ -204,7 +199,21 @@
       <option name="project" value="LOCAL" />
       <updated>1621941893481</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="update FlutterMatomoPlugin.kt">
+      <created>1621942736191</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1621942736191</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fixing syntax errors">
+      <created>1621942915539</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1621942915539</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -223,18 +232,20 @@
     <MESSAGE value="updating ios deployment target" />
     <MESSAGE value="updated android matomo sdk" />
     <MESSAGE value="increase version number" />
-    <option name="LAST_COMMIT_MESSAGE" value="increase version number" />
+    <MESSAGE value="update FlutterMatomoPlugin.kt" />
+    <MESSAGE value="fixing syntax errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing syntax errors" />
   </component>
   <component name="WindowStateProjectService">
     <state x="736" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1615383804720">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="736" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1400/3840.366.1920.1160/-1600.384.1600.1160@0.0.2560.1400" timestamp="1615383804720" />
-    <state x="899" y="270" key="CommitChangelistDialog2" timestamp="1621941892982">
+    <state x="899" y="270" key="CommitChangelistDialog2" timestamp="1621942915027">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="899" y="270" key="CommitChangelistDialog2/0.0.2560.1400/3840.366.1920.1160/-1600.384.1600.1160@0.0.2560.1400" timestamp="1615389819725" />
-    <state x="899" y="270" key="CommitChangelistDialog2/0.0.2560.1400/5760.549.1920.1160/-2400.576.1600.1160@0.0.2560.1400" timestamp="1621941892982" />
+    <state x="899" y="270" key="CommitChangelistDialog2/0.0.2560.1400/5760.549.1920.1160/-2400.576.1600.1160@0.0.2560.1400" timestamp="1621942915027" />
     <state x="1061" y="456" key="FileChooserDialogImpl" timestamp="1621941600341">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -261,11 +272,11 @@
     </state>
     <state x="782" y="346" key="SettingsEditor/0.0.2560.1400/3840.366.1920.1160/-1600.384.1600.1160@0.0.2560.1400" timestamp="1615383803895" />
     <state x="782" y="346" key="SettingsEditor/0.0.2560.1400/5760.549.1920.1160/-2400.576.1600.1160@0.0.2560.1400" timestamp="1621941217807" />
-    <state x="873" y="421" key="Vcs.Push.Dialog.v2" timestamp="1621941896612">
+    <state x="873" y="421" key="Vcs.Push.Dialog.v2" timestamp="1621942916420">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="873" y="421" key="Vcs.Push.Dialog.v2/0.0.2560.1400/3840.366.1920.1160/-1600.384.1600.1160@0.0.2560.1400" timestamp="1615389821216" />
-    <state x="873" y="421" key="Vcs.Push.Dialog.v2/0.0.2560.1400/5760.549.1920.1160/-2400.576.1600.1160@0.0.2560.1400" timestamp="1621941896612" />
+    <state x="873" y="421" key="Vcs.Push.Dialog.v2/0.0.2560.1400/5760.549.1920.1160/-2400.576.1600.1160@0.0.2560.1400" timestamp="1621942916420" />
     <state x="1098" y="615" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1621941325988">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>

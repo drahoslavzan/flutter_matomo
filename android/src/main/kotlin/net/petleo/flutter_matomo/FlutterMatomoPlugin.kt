@@ -19,7 +19,7 @@ import org.matomo.sdk.extra.TrackHelper
 class FlutterMatomoPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
 
     private lateinit var channel : MethodChannel
-    private var activity : Activity? = null
+    private lateinit var activity : Activity
 
     companion object {
         var tracker: Tracker? = null
@@ -32,7 +32,7 @@ class FlutterMatomoPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
     }
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "hello_example")
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "flutter_matomo")
         channel.setMethodCallHandler(this)
     }
 
@@ -45,7 +45,7 @@ class FlutterMatomoPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
     }
 
     override fun onDetachedFromActivity() {
-        activity = null
+        // Not yet implemented
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
