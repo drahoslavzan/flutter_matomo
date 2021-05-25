@@ -11,7 +11,7 @@ import org.matomo.sdk.Tracker
 import org.matomo.sdk.TrackerBuilder
 import org.matomo.sdk.extra.TrackHelper
 
-class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : MethodCallHandler {
+class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : FlutterPlugin {
 
     companion object {
         var tracker: Tracker? = null
