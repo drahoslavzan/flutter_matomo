@@ -41,6 +41,10 @@ class FlutterMatomoPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
         channel.setMethodCallHandler(null)
     }
 
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        // Not yet implemented
+    }
+
     override fun onAttachedToActivity(@NonNull binding: ActivityPluginBinding) {
         activity = binding.getActivity()
     }
