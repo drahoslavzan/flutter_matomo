@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.annotation.NonNull
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -18,7 +19,7 @@ import org.matomo.sdk.extra.TrackHelper
 class FlutterMatomoPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
 
     private lateinit var channel : MethodChannel
-    private lateinit var activity : Activity
+    private var activity : Activity? = null
 
     companion object {
         var tracker: Tracker? = null
@@ -39,7 +40,7 @@ class FlutterMatomoPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
         channel.setMethodCallHandler(null)
     }
 
-    override fun onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
+    override fun onAttachedToActivity(@NonNull binding: ActivityPluginBinding) {
         activity = binding.getActivity()
     }
 
