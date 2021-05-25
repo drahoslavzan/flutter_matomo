@@ -1,17 +1,24 @@
 package net.petleo.flutter_matomo
 
 import android.app.Activity
+import androidx.annotation.NonNull
+
+import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
+
 import org.matomo.sdk.Matomo
 import org.matomo.sdk.Tracker
 import org.matomo.sdk.TrackerBuilder
 import org.matomo.sdk.extra.TrackHelper
 
-class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : FlutterPlugin {
+class FlutterMatomoPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
+
+    private lateinit var channel : MethodChannel
+    private lateinit var activity : Activity
 
     companion object {
         var tracker: Tracker? = null
@@ -21,6 +28,23 @@ class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : 
             val channel = MethodChannel(registrar.messenger(), "flutter_matomo")
             channel.setMethodCallHandler(FlutterMatomoPlugin(registrar.activity(), channel))
         }
+    }
+
+    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "hello_example")
+        channel.setMethodCallHandler(this)
+    }
+
+    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+        channel.setMethodCallHandler(null)
+    }
+
+    override fun onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
+        activity = binding.getActivity()
+    }
+
+    override fun onDetachedFromActivity() {
+        activity = null
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
