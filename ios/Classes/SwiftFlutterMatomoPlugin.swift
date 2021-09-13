@@ -41,12 +41,7 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
         result("Matomo:: trackScreen screen \(widgetName) sent")
     }
     if(call.method.elementsEqual("trackOrder")) {
-        let arguments = call.arguments as? NSDictionary
-        let orderValue = arguments?["orderValue"] as? Int
-        let orderId = arguments?["orderId"] as? Int
-
-        matomoTracker?.trackOrder(id: String(orderId) ?? "", revenue: String(orderValue) ?? "")
-        result("Matomo:: trackOrder order \(orderId)")
+        result("Matomo:: trackOrder initialized successfully.")
     }
     if(call.method.elementsEqual("trackDownload")) {
         result("Matomo:: trackDownload initialized successfully.")
