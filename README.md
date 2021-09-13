@@ -1,5 +1,9 @@
 # flutter_matomo
 
+**NOTE: This is a fork of [original repo](https://gitlab.freemine.de/Vajuto/flutter-matomo/-/tree/develop), all credits goes to them.**
+
+---
+
 Matomo tracking for flutter
 
 Works on both **Android and/or iOS**. Version 1.1.4 supports AndroidX.  
